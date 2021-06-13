@@ -1,0 +1,27 @@
+
+> fsevents@1.2.13 install /Users/user/Desktop/WeatherApp/node_modules/metro-core/node_modules/fsevents
+> node install.js
+
+
+> fsevents@1.2.13 install /Users/user/Desktop/WeatherApp/node_modules/metro/node_modules/fsevents
+> node install.js
+
+
+> core-js@2.6.12 postinstall /Users/user/Desktop/WeatherApp/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+added 79 packages from 29 contributors, removed 85 packages, updated 1082 packages and audited 1163 packages in 133.584s
+
+81 packages are looking for funding
+  run `npm fund` for details
+
+found 5 vulnerabilities (3 low, 2 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
