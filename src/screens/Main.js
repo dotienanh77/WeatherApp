@@ -1,13 +1,15 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useRef, Component} from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   Text,
+  StyleSheet,
   ScrollView,
   StatusBar,
   ImageBackground,
   useWindowDimensions,
+  Animated,
 } from 'react-native';
 
 import Locations from '../model/locations';
@@ -38,13 +40,27 @@ import Locations from '../model/locations';
 
 const Main = () => {
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
+  const scrollX = useRef(new Animated.Value(0)).current;
   return (
     <>
       <StatusBar barStyle="light-content" />
       <ScrollView
         horizontal={true}
         pagingEnabled
-        showsHorizontalScrollIndicator={false}>
+        showsHorizontalScrollIndicator={false}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  x: scrollX,
+                },
+              },
+            },
+          ],
+          {useNativeDriver: false},
+        )}
+        scrollEventThrottle={1}>
         {Locations.map((location, index) => {
           if (location.weatherType === 'Night') {
             bgImg = require('../assets/night2.jpg');
@@ -67,13 +83,7 @@ const Main = () => {
                 style={{
                   flex: 1,
                 }}>
-                <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: 'rgba(0,0,0,0.3)',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
+                <View style={styles.container}>
                   <Text style={{color: 'white'}}>{location.city}</Text>
                 </View>
               </ImageBackground>
@@ -81,26 +91,19 @@ const Main = () => {
           );
         })}
       </ScrollView>
-      <View
-        style={{
-          flexDirection: 'row',
-          position: 'absolute',
-          top: 160,
-          left: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.indicatorWrapper}>
         {Locations.map((location, index) => {
+          const width = scrollX.interpolate({
+            inputRange: [
+              windowWidth * (index - 1),
+              windowWidth * index,
+              windowWidth * (index + 1),
+            ],
+            outputRange: [5, 12, 5],
+            extrapolate: 'clamp',
+          });
           return (
-            <View
-              style={{
-                height: 5,
-                width: 5,
-                borderRadius: 5,
-                marginHorizontal: 4,
-                backgroundColor: '#fff',
-              }}
-            />
+            <Animated.View key={index} style={[styles.normalDot, {width}]} />
           );
         })}
       </View>
@@ -108,4 +111,27 @@ const Main = () => {
   );
 };
 export default Main;
-// const styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  normalDot: {
+    height: 5,
+    width: 5,
+    borderRadius: 5,
+    marginHorizontal: 4,
+    backgroundColor: '#fff',
+  },
+  indicatorWrapper: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 160,
+    left: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

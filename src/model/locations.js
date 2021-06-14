@@ -1,4 +1,4 @@
-export default Locations = [
+export default locations = [
   {
     id: 1,
     city: 'Kolkata',
