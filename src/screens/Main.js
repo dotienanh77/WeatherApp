@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useRef} from 'react';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
   View,
   Text,
@@ -10,6 +11,7 @@ import {
   ImageBackground,
   useWindowDimensions,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
 
 import Locations from '../model/locations';
@@ -186,6 +188,14 @@ const Main = () => {
           );
         })}
       </ScrollView>
+      <View style={styles.appHeader}>
+        <TouchableOpacity onPress={() => {}}>
+          <SearchIcon width={25} height={25} fill="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
+          <MenuIcon width={25} height={25} fill="#fff" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.indicatorWrapper}>
         {Locations.map((location, index) => {
           const width = scrollX.interpolate({
@@ -271,5 +281,15 @@ const styles = StyleSheet.create({
     height: 5,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderRadius: 5,
+  },
+  appHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    position: 'absolute',
+    paddingHorizontal: 20,
+    top: 0,
+    width: '100%',
+    height: getStatusBarHeight() + 40,
   },
 });
