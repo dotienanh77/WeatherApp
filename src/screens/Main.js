@@ -37,7 +37,26 @@ import Locations from '../model/locations';
 //     return <MoonIcon width={34} height={34} fill="#fff" />;
 //   }
 // };
-
+import SunIcon from '../assets/sun.svg';
+import CloudIcon from '../assets/cloudy.svg';
+import MoonIcon from '../assets/moon.svg';
+import RainIcon from '../assets/rain.svg';
+import MenuIcon from '../assets/menu.svg';
+import SearchIcon from '../assets/search.svg';
+const WeatherIcon = (weatherType) => {
+  if (weatherType === 'Night') {
+    return <MoonIcon width={34} height={34} fill="#fff" />;
+  }
+  if (weatherType === 'Cloudy') {
+    return <CloudIcon width={34} height={34} fill="#fff" />;
+  }
+  if (weatherType === 'Sunny') {
+    return <SunIcon width={34} height={34} fill="#fff" />;
+  }
+  if (weatherType === 'Rainy') {
+    return <RainIcon width={34} height={34} fill="#fff" />;
+  }
+};
 const Main = () => {
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -84,7 +103,31 @@ const Main = () => {
                   flex: 1,
                 }}>
                 <View style={styles.container}>
-                  <Text style={{color: 'white'}}>{location.city}</Text>
+                  <View style={styles.topInfoWrapper}>
+                    <View>
+                      <Text style={styles.city}>{location.city}</Text>
+                      <Text style={styles.time}>{location.dateTime}</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.temperature}>
+                        {location.temperature}
+                      </Text>
+                      <View>
+                        {WeatherIcon(location.weatherType)}
+                        <Text style={styles.weatherType}>
+                          {location.weatherType}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      borderBottomColor: 'rgba(255,255,255,0.7)',
+                      marginTop: 20,
+                      borderBottomWidth: 1,
+                    }}
+                  />
+                  <View style={styles.bottomInfoWrapper} />
                 </View>
               </ImageBackground>
             </View>
@@ -116,8 +159,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
   },
   normalDot: {
     height: 5,
@@ -134,4 +176,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  topInfoWrapper: {
+    flex: 1,
+    marginTop: 160,
+    justifyContent: 'space-between',
+  },
+  city: {
+    fontSize: 30,
+    color: '#fff',
+    // fontFamily: 'Lato-Regular ',
+    fontWeight: 'bold',
+  },
+  time: {
+    color: '#fff',
+    // fontFamily: 'Lato-Regular ',
+    fontWeight: 'bold',
+  },
+  temperature: {
+    color: '#fff',
+    fontSize: 85,
+    // fontFamily: 'Lato-Thin',
+  },
+  weatherType: {
+    color: '#fff',
+    fontSize: 25,
+    lineHeight: 34,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  bottomInfoWrapper: {},
 });
