@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useRef} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
   View,
@@ -16,29 +16,6 @@ import {
 
 import Locations from '../model/locations';
 
-// import SunIcon from './assets/sun.svg';
-// import CloudIcon from './assets/cloudy.svg';
-// import MoonIcon from './assets/moon.svg';
-// import RainIcon from './assets/rain.svg';
-// import MenuIcon from './assets/menu.svg';
-// import SearchIcon from './assets/search.svg';
-
-// import {getStatusBarHeight} from 'react-native-status-bar-height';
-
-// const WeatherIcon = (weatherType) => {
-//   if (weatherType == 'Sunny') {
-//     return <SunIcon width={34} height={34} fill="#fff" />;
-//   }
-//   if (weatherType == 'Rainy') {
-//     return <RainIcon width={34} height={34} fill="#fff" />;
-//   }
-//   if (weatherType == 'Cloudy') {
-//     return <CloudIcon width={34} height={34} fill="#fff" />;
-//   }
-//   if (weatherType == 'Night') {
-//     return <MoonIcon width={34} height={34} fill="#fff" />;
-//   }
-// };
 import SunIcon from '../assets/sun.svg';
 import CloudIcon from '../assets/cloudy.svg';
 import MoonIcon from '../assets/moon.svg';
@@ -60,6 +37,36 @@ const WeatherIcon = (weatherType) => {
   }
 };
 const Main = () => {
+  // useEffect(() => {
+  //   //TODO fetch something
+  // }, [])
+  // const [state, setState] = useState(initialStateValue)
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const res = await fetch(
+      'http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=Hanoi',
+    );
+    const jsondata = await res.json();
+
+    console.log(jsondata.main.temp);
+  };
+  const [temperature, setTemperature] = useState(30);
+  const updateTemperature = () => setTemperature(jsondata.main.temp);
+  // const fetchData = () => {
+  //   fetch(
+  //     'http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=Hanoi',
+  //   )
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((jsonData) => {
+  //       console.log(jsonData);
+  //     });
+  // };
+
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;
   return (
@@ -112,7 +119,7 @@ const Main = () => {
                     </View>
                     <View>
                       <Text style={styles.temperature}>
-                        {location.temperature}
+                        {updateTemperature}
                       </Text>
                       <View style={{flexDirection: 'row'}}>
                         {WeatherIcon(location.weatherType)}
