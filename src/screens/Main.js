@@ -122,7 +122,9 @@ const Main = () => {
                       <Text style={styles.time}>{location.dateTime}</Text>
                     </View>
                     <View>
-                      <Text style={styles.temperature}>{temperature}</Text>
+                      <Text style={styles.temperature}>
+                        {`${temperature}\u2103`}
+                      </Text>
                       <View style={{flexDirection: 'row'}}>
                         {WeatherIcon(location.weatherType)}
                         <Text style={styles.weatherType}>
