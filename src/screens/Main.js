@@ -44,17 +44,21 @@ const Main = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   const fetchData = async () => {
     const res = await fetch(
       'http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=Hanoi',
     );
     const jsondata = await res.json();
 
-    console.log(jsondata.main.temp);
+    // console.log(jsondata.main.temp);
+    setTemperature(jsondata.main.temp);
+    setWind(jsondata.wind.speed);
+    setHumidity(jsondata.main.humidity);
   };
-  const [temperature, setTemperature] = useState(30);
-  const updateTemperature = () => setTemperature(jsondata.main.temp);
+  const [temperature, setTemperature] = useState(0);
+  const [wind, setWind] = useState(0);
+  const [humidity, setHumidity] = useState(0);
+  // const updateTemperature = () => setTemperature(jsondata.main.temp);
   // const fetchData = () => {
   //   fetch(
   //     'http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=Hanoi',
@@ -118,9 +122,7 @@ const Main = () => {
                       <Text style={styles.time}>{location.dateTime}</Text>
                     </View>
                     <View>
-                      <Text style={styles.temperature}>
-                        {updateTemperature}
-                      </Text>
+                      <Text style={styles.temperature}>{temperature}</Text>
                       <View style={{flexDirection: 'row'}}>
                         {WeatherIcon(location.weatherType)}
                         <Text style={styles.weatherType}>
@@ -140,7 +142,7 @@ const Main = () => {
                     <View style={{alignItems: 'center'}}>
                       <Text style={styles.infoText}>Wind</Text>
                       <Text style={[styles.infoText, {fontSize: 24}]}>
-                        {location.wind}
+                        {wind}
                       </Text>
                       <Text style={styles.infoText}>km/h</Text>
                       <View style={styles.infoBar}>
@@ -174,7 +176,7 @@ const Main = () => {
                     <View style={{alignItems: 'center'}}>
                       <Text style={styles.infoText}>Humidty</Text>
                       <Text style={[styles.infoText, {fontSize: 24}]}>
-                        {location.humidity}
+                        {humidity}
                       </Text>
                       <Text style={styles.infoText}>%</Text>
                       <View style={styles.infoBar}>
